@@ -7,6 +7,8 @@ public class StageMaker : MonoBehaviour {
     public GameObject beachObject;
     public GameObject treeObject;
 
+    public string stageFile;
+
     private Vector3 space = new Vector3(1.0f, 1.0f, 1.0f);    
 
     void Start () {
@@ -18,7 +20,7 @@ public class StageMaker : MonoBehaviour {
         int height;
 
         TextAsset textAsset = new TextAsset();
-        textAsset = Resources.Load("Stages/Stage1", typeof(TextAsset)) as TextAsset;
+        textAsset = Resources.Load(stageFile, typeof(TextAsset)) as TextAsset;
         string textData = textAsset.text;
         GameObject parentObject = new GameObject("Stage");
         parentObject.tag = "Stage";
