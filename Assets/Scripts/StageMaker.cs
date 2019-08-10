@@ -20,25 +20,31 @@ public class StageMaker : MonoBehaviour {
         TextAsset textAsset = new TextAsset();
         textAsset = Resources.Load("Stages/Stage1", typeof(TextAsset)) as TextAsset;
         string textData = textAsset.text;
-        GameObject obj = null;
+        GameObject parentObject = new GameObject("Stage");
+        parentObject.tag = "Stage";
 
         foreach(char c in textData) {
             if (char.IsNumber(c)) {
                 height = int.Parse(c.ToString());
                 for (int i = 0; i < height; i++) {
-                    obj = Instantiate(groundObject, pos, Quaternion.identity) as GameObject;
-                    obj.name = groundObject.name;
+                    putObject(groundObject, pos, parentObject);
                     pos.y += space.y;
                 }
                 pos.x += space.x;
                 pos.y = basePos.y;
                 currentWidth++;
             } else if (c == 's') {
-                putObject(seaObject, ref pos, ref currentWidth);
+                putObject(seaObject, pos, parentObject);
+                pos.x += space.x;
+                currentWidth++;
             } else if (c == 'b') {
-                putObject(beachObject, ref pos, ref currentWidth);
+                putObject(beachObject, pos, parentObject);
+                pos.x += space.x;
+                currentWidth++;
             } else if (c == 't') {
-                putObject(treeObject, ref pos, ref currentWidth);
+                putObject(treeObject, pos, parentObject);
+                pos.x += space.x;
+                currentWidth++;
             } else if (c == '\n') {
                 Vector3 origin = new Vector3((float)currentWidth, 1.0f, 0f);
                 pos.z -= space.z;
@@ -51,11 +57,10 @@ public class StageMaker : MonoBehaviour {
         }
     }
 
-    private void putObject(GameObject obj, ref Vector3 pos, ref int currentWidth) {
-                obj = Instantiate(obj, pos, Quaternion.identity) as GameObject;
-                obj.name = beachObject.name;
-                pos.x += space.x;
-                currentWidth++;
+    private void putObject(GameObject obj, Vector3 pos, GameObject parent) {
+        obj = Instantiate(obj, pos, Quaternion.identity) as GameObject;
+        obj.name = beachObject.name;
+        obj.transform.parent = parent.transform;
     }
 
     public void Delete() {

@@ -292,7 +292,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f798e00ea30f5fa48bc8944528f13928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageObject: {fileID: 1511079451153732641, guid: 8a1b133c7f009314f84352d55681967d,
+  groundObject: {fileID: 1511079451153732641, guid: 8a1b133c7f009314f84352d55681967d,
+    type: 3}
+  seaObject: {fileID: 7974115605719088476, guid: e81f8924898987f41ac6a381160e12bc,
+    type: 3}
+  beachObject: {fileID: 7057994242486252772, guid: 59a99a226b11ac44bb56c1508b19a0db,
+    type: 3}
+  treeObject: {fileID: 2658213724219657281, guid: 027b81e6442a1dc4b8f72b3c7fdeb3cc,
     type: 3}
 --- !u!4 &1122582666
 Transform:
