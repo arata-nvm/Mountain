@@ -59,7 +59,7 @@ public class StageMaker : MonoBehaviour {
 
     private void putObject(GameObject obj, Vector3 pos, GameObject parent) {
         obj = Instantiate(obj, pos, Quaternion.identity) as GameObject;
-        obj.name = beachObject.name;
+        obj.name = obj.name;
         obj.transform.parent = parent.transform;
     }
 
