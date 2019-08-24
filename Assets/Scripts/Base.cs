@@ -7,7 +7,7 @@ public class Base : MonoBehaviour
 
     public GameManager gameManager;
 
-    void OnDestroy()
+    public void OnGameEnd()
     {
         if (this.CompareTag("Player"))
         {

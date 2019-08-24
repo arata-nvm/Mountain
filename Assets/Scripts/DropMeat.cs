@@ -4,18 +4,11 @@ public class DropMeat : MonoBehaviour
 {
 
     public GameObject meatObject;
-    private static bool isQuitting = false;
 
-    void OnApplicationQuit()
+    public void Drop()
     {
-        isQuitting = true;
+        Instantiate(meatObject, gameObject.transform.position, Quaternion.identity);
+
     }
 
-    void OnDestroy()
-    {
-        if (!isQuitting)
-        {
-            Instantiate(meatObject, gameObject.transform.position, Quaternion.identity);
-        }
-    }
 }

@@ -4,16 +4,25 @@ using UnityEngine.SceneManagement;
 public class SceneChange : MonoBehaviour
 {
 
+    private static string titleSceneName = "Title";
+    private static string stageSceneName = "Stage1";
+    
     public void GoTitle()
     {
         Destroy(GameObject.Find("GameClear"));
         Destroy(GameObject.Find("GameOver"));
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadScene(titleSceneName);
     }
 
-    public void StartGame()
+    public void LoadGame()
     {
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene(stageSceneName);
+    }
+
+    public void ReloadGame()
+    {
+        Time.timeScale = 1.0f;
+        Application.LoadLevel(stageSceneName);
     }
 
 }
