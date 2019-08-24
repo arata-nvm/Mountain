@@ -1,41 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Cursor : MonoBehaviour
 {
-    public GameObject selectedCursor;
-    NavMeshAgent target;
+    public GameObject placeObject;
+    public float placeInterval = 10f;
+    public Image placeGauge;
+    public Text placeIntervalText;
 
     int layerMask;
+    float timeEapsed;
 
     void Start()
     {
-        layerMask = 1 << LayerMask.NameToLayer("Stage") | 1 << LayerMask.NameToLayer("Player");
+        layerMask = 1 << LayerMask.NameToLayer("Stage");
+        timeEapsed = placeInterval;
     }
 
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (timeEapsed <= placeInterval)
+        {
+            timeEapsed += Time.deltaTime;
+            placeGauge.fillAmount = timeEapsed / placeInterval;
+        }
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 64f, layerMask)) {
-            Vector3 hitPos = hit.transform.position;
-            hitPos.y += 0.5f;
-            GameObject hitObject = hit.collider.gameObject;
+        placeIntervalText.text = $"{placeInterval:f1}s";
 
-            if (hitObject.tag == "Stage" && hit.normal.y > 0.9f) {
+        if (Physics.Raycast(ray, out hit, 64f, layerMask))
+        {
+            var hitPos = hit.transform.position;
+            hitPos.y += 0.5f;
+            var hitObject = hit.collider.gameObject;
+
+            if (hitObject.CompareTag("Stage") && hit.normal.y > 0.9f)
+            {
                 this.transform.position = hitPos;
-                if (target && Input.GetMouseButtonDown(0)) {
-                    target.destination = hitPos;
+                if (Input.GetMouseButtonDown(0) && timeEapsed >= placeInterval)
+                {
+                    Instantiate(placeObject, hitPos, Quaternion.identity);
+                    timeEapsed = 0f;
                 }
-            } else if (Input.GetMouseButtonDown(0)) {
-                NavMeshAgent agent = hitObject.GetComponent<NavMeshAgent>();
-                if (agent == null) return;
-                target = agent;
-                selectedCursor.transform.position = hitPos;
-                selectedCursor.transform.parent = hitObject.transform;
             }
 
         }

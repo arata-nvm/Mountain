@@ -1,7 +1,7 @@
-using System.IO;
 using UnityEngine;
 
-public class StageMaker : MonoBehaviour {
+public class StageMaker : MonoBehaviour
+{
     public GameObject groundObject;
     public GameObject seaObject;
     public GameObject beachObject;
@@ -9,69 +9,81 @@ public class StageMaker : MonoBehaviour {
 
     public string stageFile;
 
-    private Vector3 space = new Vector3(1.0f, 1.0f, 1.0f);    
+    private Vector3 space = new Vector3(1.0f, 1.0f, 1.0f);
 
-    void Start () {
-    }
-
-    public void Create(Vector3 basePos) {
-        Vector3 pos = basePos;
-        int currentWidth = 0;
+    public void Create(Vector3 basePos)
+    {
+        var pos = basePos;
+        var currentWidth = 0;
         int height;
 
-        TextAsset textAsset = new TextAsset();
-        textAsset = Resources.Load(stageFile, typeof(TextAsset)) as TextAsset;
-        string textData = textAsset.text;
-        GameObject parentObject = new GameObject("Stage");
-        parentObject.tag = "Stage";
+        var textAsset = Resources.Load(stageFile, typeof(TextAsset)) as TextAsset;
+        var textData = textAsset.text;
+        var parentObject = new GameObject("Stage") {tag = "Stage"};
 
-        foreach(char c in textData) {
-            if (char.IsNumber(c)) {
+        foreach (var c in textData)
+        {
+            if (char.IsNumber(c))
+            {
                 height = int.Parse(c.ToString());
-                for (int i = 0; i < height; i++) {
+                for (var i = 0; i < height; i++)
+                {
                     putObject(groundObject, pos, parentObject);
                     pos.y += space.y;
                 }
                 pos.x += space.x;
                 pos.y = basePos.y;
                 currentWidth++;
-            } else if (c == 's') {
+            }
+            else if (c == 's')
+            {
                 putObject(seaObject, pos, parentObject);
                 pos.x += space.x;
                 currentWidth++;
-            } else if (c == 'b') {
+            }
+            else if (c == 'b')
+            {
                 putObject(beachObject, pos, parentObject);
                 pos.x += space.x;
                 currentWidth++;
-            } else if (c == 't') {
+            }
+            else if (c == 't')
+            {
                 putObject(treeObject, pos, parentObject);
                 pos.x += space.x;
                 currentWidth++;
-            } else if (c == '\n') {
+            }
+            else if (c == '\n')
+            {
                 Vector3 origin = new Vector3((float)currentWidth, 1.0f, 0f);
                 pos.z -= space.z;
                 pos.x -= origin.x;
                 currentWidth = 0;
-            } else if (c == '-') {
+            }
+            else if (c == '-')
+            {
                 pos.x += space.x;
                 currentWidth++;
             }
         }
     }
 
-    private void putObject(GameObject obj, Vector3 pos, GameObject parent) {
+    private void putObject(GameObject obj, Vector3 pos, GameObject parent)
+    {
         obj = Instantiate(obj, pos, Quaternion.identity) as GameObject;
         obj.name = obj.name;
         obj.transform.parent = parent.transform;
     }
 
-    public void Delete() {
-        GameObject[] stages = GameObject.FindGameObjectsWithTag("Stage");
-        foreach(GameObject stage in stages) {
+    public void Delete()
+    {
+        var stages = GameObject.FindGameObjectsWithTag("Stage");
+        foreach (var stage in stages)
+        {
             GameObject.DestroyImmediate(stage);
         }
     }
 
-    
-	
+
+
 }

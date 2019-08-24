@@ -2,35 +2,34 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class Health : MonoBehaviour {
-    public const int maxHealth = 10;
-    public int currentHealth = maxHealth;
+public class Health : MonoBehaviour
+{
+    public int maxHealth;
     public Slider slider;
-    public GameManager gameManager;
 
-    void Start() {
+    private int currentHealth;
+
+
+    void Start()
+    {
+        currentHealth = maxHealth;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
     }
 
-    void Update() {
+    void Update()
+    {
         slider.transform.LookAt(GameObject.Find("Main Camera").transform);
     }
 
-   public void TakeDamage(int amount) {
+    public void TakeDamage(int amount)
+    {
         currentHealth -= amount;
         slider.value = currentHealth;
-        if (currentHealth <= 0) {
-            DestroyObject();
+        if (currentHealth <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 
-    void DestroyObject() {
-        Destroy(this.gameObject);
-        if (this.tag == "Player") {
-            gameManager.OnPlayerDead();
-        } else if (this.tag == "Enemy") {
-            gameManager.OnEnemyDead();
-        }
-    }
 }
